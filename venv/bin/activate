@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/home/caleb/code/projects/pelican/pelican_project/venv"
+VIRTUAL_ENV="/home/caleb/code/projects/pelican/pelican_gl_sync/venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
