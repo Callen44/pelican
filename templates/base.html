@@ -1,12 +1,12 @@
 <!doctype html>
-<title>{% block title %}{% endblock %} - core</title>
+<title>{% block title %}{% endblock %} - Pelican</title>
 
 {%load static%}
 
 <link rel='stylesheet' href="{% static 'core/style.css' %}">
 
 <nav>
-  <h1>core</h1>
+  <h1>Pelican</h1>
   <ul>
     {% if user.is_authenticated %}
       <li><span>{{ user.username }}</span>
