@@ -31,7 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'flaskr',
+    'core',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -124,9 +124,9 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_REDIRECT_URL = "flaskr:index"
+LOGIN_REDIRECT_URL = "core:index"
 
-LOGOUT_REDIRECT_URL = "flaskr:index"
+LOGOUT_REDIRECT_URL = "core:index"
 
 EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
 
