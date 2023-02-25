@@ -3,7 +3,7 @@
 {% block header %}
   <h1>{% block title %}Posts{% endblock %}</h1>
   {% if user.is_authenticated %}
-    <a class="action" href="{% url 'flaskr:create' %}">New</a>
+    <a class="action" href="{% url 'core:create' %}">New</a>
   {% endif %}
 {% endblock %}
 
@@ -16,7 +16,7 @@
           <div class="about">by {{ post.author_id }} on {{ post.created }}</div>
         </div>
         {% if user.username == post.author_id %}
-          <a class="action" href="{% url 'flaskr:update' post.id %}">Edit</a>
+          <a class="action" href="{% url 'core:update' post.id %}">Edit</a>
         {% endif %}
       </header>
       <p class="body">{{ post.body }}</p>

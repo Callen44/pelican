@@ -16,7 +16,7 @@
     <input type="submit" value="Save">
   </form>
   <hr>
-  <form action="{% url 'flaskr:delete' post.id %}" method="post">
+  <form action="{% url 'core:delete' post.id %}" method="post">
 
     {% csrf_token %}
     <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
