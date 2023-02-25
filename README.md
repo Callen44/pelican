@@ -1,5 +1,7 @@
 # pelican
  a forked verson of the repository django-flaskr, with enhanced fetures
 # use and installation
- it is reccomended to use this app in a python virtual enviorment but not required.
- on the other hand it is required to use this somewhere where there is a django installation. and to run python manage.py migrate
+ This file comes with a virtual enviroment, and dose not have any dependencies
+ that need to be installed. You should run a migration ` python manage.py migrate `
+ for those who don't know django. Though the virtual enviroment will do you
+ no good if you do not have the virtual enviroment.
