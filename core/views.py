@@ -1,17 +1,13 @@
-from django.views import generic
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.utils import timezone
+from django.db.models import Count
 
 from .models import Post
 
 # Create your views here.
 def index(request):
-    posts = []
-    
-    for post in Post.objects.order_by('-pub_date'):
-        posts.append({'title': post.get_name(), 'author_id': str(post.get_author()), 'created': post.get_date(), 'body': post.get_body(), 'id': post.get_id()})
-        #print(post.get_likes())
+    posts = Post.objects.order_by("-published_date").annotate(num_likes=Count("likes"))
     return render(request, 'home.html', {'posts': posts})
 def update(request, pk):
     post = request.POST
