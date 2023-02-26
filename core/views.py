@@ -7,13 +7,7 @@ from .models import Post
 
 # Create your views here.
 def index(request):
-<<<<<<< Updated upstream
-    posts = []
-    for post in Post.objects.order_by('-pub_date'):
-        posts.append({'title': post.get_name(), 'author_id': str(post.get_author()), 'created': post.get_date(), 'body': post.get_body(), 'id': post.get_id()})
-=======
     posts = Post.objects.order_by("-published_date").annotate(num_likes=Count("likes"))
->>>>>>> Stashed changes
     return render(request, 'home.html', {'posts': posts})
 def update(request, pk):
     post = request.POST
