@@ -19,6 +19,8 @@ class Post(models.Model):
         return self.post_title
     def get_author(self):
         return self.by
+    def get_likes(self):
+        return type(self).like.all()
 
 class Like(models.Model):
     associated_post = models.ManyToManyField(Post)
