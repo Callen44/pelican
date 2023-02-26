@@ -19,7 +19,7 @@
           <a class="action" href="{% url 'core:update' post.id %}">Edit</a>
         {% endif %}
         {% if user.is_authenticated == True%}
-          <a class="action" href="./placeholder_url">Like</a>
+          <a class="action" href="./placeholder_url">Like({{ post.likes }})</a>
         {% endif %}
       </header>
       <p class="body">{{ post.body }}</p>
