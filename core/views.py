@@ -8,6 +8,7 @@ from .models import Post
 # Create your views here.
 def index(request):
     posts = Post.objects.order_by("-published_date").annotate(num_likes=Count("likes"))
+    print(posts[0].created_by)
     return render(request, 'home.html', {'posts': posts})
 def update(request, pk):
     post = request.POST
