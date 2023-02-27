@@ -3,13 +3,18 @@ from django.http import HttpResponseRedirect
 from django.utils import timezone
 from django.db.models import Count
 
-from .models import Post
+from .models import Post, Like
 
 # Create your views here.
 def index(request):
     posts = Post.objects.order_by("-published_date").annotate(num_likes=Count("likes"))
     print(posts[0].created_by)
     return render(request, 'home.html', {'posts': posts})
+def like(request, pk):
+    post = Post.objects.get(id=pk)
+    l = Like(users = request.user, posts = post)
+    l.save()
+    return HttpResponseRedirect('..')
 def update(request, pk):
     post = request.POST
     post_got = Post.objects.get(id=pk)
