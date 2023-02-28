@@ -14,6 +14,10 @@ def like(request, pk):
     post = Post.objects.get(id=pk)
     
     l = Like(users = request.user, posts = post)
+    all_likes = Like.objects.all()
+    for like in all_likes:
+        if l.users == like.users and l.posts == like.posts:
+            return HttpResponseRedirect('..')
     l.save()
     return HttpResponseRedirect('..')
 def update(request, pk):
