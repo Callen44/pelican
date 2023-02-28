@@ -12,17 +12,9 @@ def index(request):
 def like(request, pk):
     #users cannot like posts that they have allready liked in the past
     post = Post.objects.get(id=pk)
-    #check for existing likes
-    try:
-        existing_likes = Like.objects.order_by("users")
-        for like in existing_likes:
-            if like.users == request.user:
-                #user allready liked this post, send him back to the home screen
-                return HttpResponseRedirect('..')
-    except:
-        #if the user has not allready liked the post then he/she can like this post
-        l = Like(users = request.user, posts = post)
-        l.save()
+    
+    l = Like(users = request.user, posts = post)
+    l.save()
     return HttpResponseRedirect('..')
 def update(request, pk):
     post = request.POST
