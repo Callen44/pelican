@@ -6,6 +6,8 @@ class Post(models.Model):
     body = models.CharField(max_length=1000)
     published_date = models.DateTimeField('date published')
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    def str_created_by(self):
+        return str(self.created_by)
 class Like(models.Model):
     posts = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='likes')
     users = models.ForeignKey(User, on_delete=models.CASCADE, related_name='likes')
