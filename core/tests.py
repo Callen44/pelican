@@ -30,5 +30,25 @@ class postTests(TestCase):
         p2.save()
 
         # run the actual test
-        response = client.get('/1/update/')
+        response = client.get('/'+str(p2.id)+'/update/')
+        assert response.status_code == 200
+
+    def test_index_view(self):
+        # activate the client
+        client = Client()
+
+        # make a test user
+        user = User.objects.create_user(username='testuser', password='testpass')
+        client.force_login(user)
+
+        # create the 2 posts
+        p1 = Post(title = "title", body = "blank", published_date = timezone.now(), created_by = user)
+        p1.save()
+        
+        # the seccond post uses the same title
+        p2 = Post(title = "title", body = "blank", published_date = timezone.now(), created_by = user)
+        p2.save()
+
+        # run the actual test
+        response = client.get('/')
         assert response.status_code == 200
