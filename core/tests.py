@@ -29,7 +29,6 @@ class postTests(TestCase):
         p2 = Post(title = "title", body = "blank", published_date = timezone.now(), created_by = user)
         p2.save()
 
-        # run the actual client
+        # run the actual test
         response = client.get('/1/update/')
-
         assert response.status_code == 200
