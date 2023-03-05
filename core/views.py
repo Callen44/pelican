@@ -10,6 +10,7 @@ from .models import Post, Like
 def index(request):
     posts = Post.objects.order_by("-published_date").annotate(num_likes=Count("likes"))
     return render(request, 'home.html', {'posts': posts})
+@login_required
 def like(request, pk):
     #users cannot like posts that they have allready liked in the past
     post = Post.objects.get(id=pk)
@@ -52,6 +53,6 @@ def create(request):
 @login_required
 def delete(request, pk):
     post = Post.objects.get(id=pk)
-    if request.user == post.get_author():
+    if request.user == post.created_by:
         post.delete()
     return HttpResponseRedirect('../..')
