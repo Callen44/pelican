@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.utils import timezone
 from django.db.models import Count
+from django.contrib.auth.decorators import login_required
 
 from .models import Post, Like
 
@@ -20,6 +21,7 @@ def like(request, pk):
             return HttpResponseRedirect('..')
     l.save()
     return HttpResponseRedirect('..')
+@login_required
 def update(request, pk):
     post = request.POST
     post_got = Post.objects.get(id=pk)
@@ -36,6 +38,7 @@ def update(request, pk):
             return render(request, 'update.html', {'post': post_dat})
     else:
         return HttpResponseRedirect('../..')
+@login_required
 def create(request):
     post = request.POST
     if post != {}:
@@ -46,6 +49,7 @@ def create(request):
         return HttpResponseRedirect('../')
     else:
         return render(request, 'create.html')
+@login_required
 def delete(request, pk):
     post = Post.objects.get(id=pk)
     if request.user == post.get_author():
