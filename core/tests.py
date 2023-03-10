@@ -69,4 +69,7 @@ class PostTests(TestCase):
             'body': "If I don't then something is wrong",
             'csrfmiddlewaretoken': csrf_token,
         }
-        response = self.client.post('/create', data=data)
+        response = self.client.post('/create/', data=data)
+        
+        # check for the post
+        assert Post.objects.filter(title='I exist').exists()
