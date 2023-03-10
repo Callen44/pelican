@@ -30,8 +30,11 @@ class postTests(TestCase):
         p2.save()
 
         # run the actual test
-        response = client.get('/'+str(p2.id)+'/update/')
-        assert response.status_code == 200
+        response = client.get('/'+str(p1.id)+'/update/',data={'title':'I am a mongose','body':'it is true'})
+        
+        p1_again = Post.objects.get(id = p1.id)
+        print(p1_again.title)
+        assert p1_again.title == 'I am a mongose'
 
     def test_index_view(self):
         # activate the client
@@ -73,7 +76,6 @@ class postTests(TestCase):
         p1_id = p1.id
 
         # run the actual test
-        print('/'+str(p1.id)+'/delete/')
         response = client.get('/'+str(p1.id)+'/delete/')
         
         self.assertFalse(Post.objects.filter(id=p1.id).exists())
