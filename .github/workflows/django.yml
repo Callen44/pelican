@@ -18,6 +18,7 @@ jobs:
     steps:
     - name: Install Dependencies
       run: |
+        ls
         sudo apt update
         sudo systemctl start postgresql.service
         pip install django
