@@ -16,6 +16,10 @@ jobs:
         python-version: [3.7, 3.8, 3.9]
 
     steps:
+    - name: Checkout previous commit
+      uses: actions/checkout@v2
+      with:
+        ref: HEAD^
     - name: Install Dependencies
       run: |
         ls
