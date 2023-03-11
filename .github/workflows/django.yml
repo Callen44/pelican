@@ -6,6 +6,9 @@ jobs:
     steps:
     - name: Check out code
       uses: actions/checkout@v2
+    - name: Install VirtualBox
+      run: | 
+        echo a work in progress
     - name: Install Vagrant
       run: |
         sudo apt-get update
