@@ -31,7 +31,7 @@ jobs:
         pip install django
         sudo apt install -y python3-dev libpq-dev
         pip install psycopg2
-        sudo sudo -u postgres psql -f /home/runner/work/pelican/pelican/setup.sql
+        sudo -u postgres psql -f /home/runner/work/pelican/pelican/setup.sql
         python manage.py migrate
     - name: Run Tests
       run: |
