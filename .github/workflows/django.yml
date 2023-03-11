@@ -9,6 +9,7 @@ jobs:
     - name: Install VirtualBox
       run: | 
         sudo add-apt-repository multiverse && sudo apt-get update
+        sudo apt install -y virtualbox
     - name: Install Vagrant
       run: |
         sudo apt-get update
