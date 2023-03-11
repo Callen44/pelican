@@ -24,7 +24,7 @@ jobs:
         ls -l ..
         pwd
         sudo chmod a+rwx *
-        sudo chmod a+rwx .
+        sudo chmod a+rwx ../*
         ls -l setup.sql
         sudo apt update
         sudo systemctl start postgresql.service
