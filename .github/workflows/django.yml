@@ -1,19 +1,30 @@
-name: Vagrant Workflow
-on: [push]
+name: Django CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
 jobs:
   build:
+
     runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: [3.7, 3.8, 3.9]
+
     steps:
-    - name: Check out code
-      uses: actions/checkout@v2
-    - name: Install VirtualBox
-      run: | 
-        sudo add-apt-repository multiverse && sudo apt-get update
-        sudo apt install -y virtualbox
-    - name: Install Vagrant
+    - name: Install Dependencies
       run: |
-        sudo apt-get update
-        sudo apt-get install -y vagrant
-    - name: Run Vagrant up
+        sudo apt update
+        sudo apt install -y postgresql postgresql-contrib
+        pip install django
+        sudo apt install -y python3-dev libpq-dev
+        pip install psycopg2
+        sudo -u postgres psql -f setup.sql
+        python manage.py migrate
+    - name: Run Tests
       run: |
-        vagrant up
+        python manage.py test core
