@@ -23,6 +23,7 @@ jobs:
         ls
         pwd
         sudo chmod a+rwx *
+        ls -l setup.sql
         sudo apt update
         sudo systemctl start postgresql.service
         pip install django
