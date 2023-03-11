@@ -1,30 +1,11 @@
-name: Django CI
-
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-
+name: Vagrant Workflow
+on: [push]
 jobs:
   build:
-
     runs-on: ubuntu-latest
-    strategy:
-      max-parallel: 4
-      matrix:
-        python-version: [3.7, 3.8, 3.9]
-
     steps:
-    - name: Install Dependencies
+    - name: Check out code
+      uses: actions/checkout@v2
+    - name: Run Vagrant up
       run: |
-        sudo apt update
-        sudo apt -y install postgresql postgresql-contrib
-        pip install django
-        sudo apt install -y python3-dev libpq-dev
-        pip install psycopg2
-        sudo -u postgres psql -f setup.sql
-        python manage.py migrate
-    - name: Run Tests
-      run: |
-        python manage.py test core
+        vagrant up
