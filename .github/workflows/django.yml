@@ -6,10 +6,16 @@ jobs:
     steps:
     - name: Check out code
       uses: actions/checkout@v2
-    - name: Install Vagrant
+    - name: Install dependencies
       run: |
         sudo apt-get update
+        sudo apt-get install -y qemu libvirt-daemon-system libvirt-clients bridge-utils
+        sudo systemctl enable libvirtd.service
+        sudo systemctl start libvirtd.service
+    - name: Install Vagrant and plugins
+      run: |
         sudo apt-get install -y vagrant
+        vagrant plugin install vagrant-libvirt 
     - name: Run Vagrant up
       run: |
-        vagrant up
+        vagrant up --provider=libvirt 
