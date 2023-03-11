@@ -73,3 +73,15 @@ class PostTests(TestCase):
         
         # check for the post
         assert Post.objects.filter(title='I exist').exists()
+    def test_like_view(self):
+        # make a post
+        p1 = Post.objects.create(title='title', body='body', published_date=timezone.now(), created_by = self.user)
+        p1.save()
+
+        # make a like
+        l = Like.objects.create(posts=p1,users=self.user)
+        l.save()
+
+        # check for the like
+        l.refresh_from_db()
+        assert l.posts.title == p1.title
