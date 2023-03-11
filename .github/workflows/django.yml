@@ -39,7 +39,7 @@ jobs:
         pip install django
         sudo apt install -y python3-dev libpq-dev
         pip install psycopg2
-        sudo -u postgres psql -f setup.sql -h hostname -p 5432 -U myuser -d mydb
+        sudo -u postgres psql -f setup.sql -h localhost -p 5432 -U myuser -d mydb
         python manage.py migrate
     - name: Run Tests
       run: |
