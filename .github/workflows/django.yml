@@ -19,7 +19,7 @@ jobs:
     - name: Install Dependencies
       run: |
         sudo apt update
-        sudo apt install -y postgresql postgresql-contrib
+        sudo systemctl start postgresql.service
         pip install django
         sudo apt install -y python3-dev libpq-dev
         pip install psycopg2
