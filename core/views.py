@@ -28,9 +28,9 @@ def update(request, pk):
     post_got = Post.objects.get(id=pk)
     if post_got.created_by == request.user:
         if post != {}:
-            post_got.post_title = post['title']
+            post_got.title = post['title']
 
-            post_got.post_body = post['body']
+            post_got.body = post['body']
             post_got.save()
 
             return HttpResponseRedirect('../..')
