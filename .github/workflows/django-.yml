@@ -8,7 +8,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 4
@@ -20,11 +19,6 @@ jobs:
       uses: actions/checkout@v2
     - name: Install Dependencies
       run: |
-        ls -l .
-        ls -l ..
-        pwd
-        sudo chmod a+rwx *
-        sudo chmod a+rwx ../*
         ls -l setup.sql
         sudo apt update
         sudo systemctl start postgresql.service
@@ -37,3 +31,5 @@ jobs:
     - name: Run Tests
       run: |
         python manage.py test core
+
+
