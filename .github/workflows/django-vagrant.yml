@@ -19,6 +19,9 @@ jobs:
 
     - name: Run vagrant up
       run: vagrant up
+      
+    - name: Test ssh
+      run: vagrant ssh -c "echo 'hello'"
 
-    - name: ssh into box after boot
+    - name: run tests
       run: vagrant ssh -c "/vagrant/venv/bin/python /vagrant/manage.py test core"
