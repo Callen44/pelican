@@ -11,10 +11,9 @@ Vagrant.configure("2") do |config|
     # setup venv
     apt-get -y install python3-venv
     python3 -m venv /vagrant/venv
-    /vagrant/venv/bin/pip install django
-    # install psycopg2
+    # install miscellaneous dependencies
     sudo apt install -y python3-dev libpq-dev
-    /vagrant/venv/bin/pip install psycopg2
+    /vagrant/venv/bin/pip install -r requirements.txt
     # configure postgresql
     sudo -u postgres psql -f /vagrant/setup.sql
     /vagrant/venv/bin/python3 /vagrant/manage.py migrate
