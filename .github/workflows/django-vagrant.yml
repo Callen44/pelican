@@ -1,0 +1,30 @@
+name: Vagrant test
+
+on: [push]
+
+jobs:
+  vagrant-up:
+    runs-on: macos-10.15
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Cache Vagrant boxes
+      uses: actions/cache@v2
+      with:
+        path: ~/.vagrant.d/boxes
+        key: ${{ runner.os }}-vagrant-${{ hashFiles('Vagrantfile') }}
+        restore-keys: |
+          ${{ runner.os }}-vagrant-
+          
+    - name: upgrade vagrant version
+      run: brew install hashicorp/tap/hashicorp-vagrant
+
+    - name: Run vagrant up
+      run: vagrant up
+      
+    - name: Test ssh
+      run: vagrant ssh -c "echo 'hello'"
+
+    - name: run tests
+      run: vagrant ssh -c "/vagrant/venv/bin/python /vagrant/manage.py test core"
