@@ -21,4 +21,4 @@ jobs:
       run: vagrant up
 
     - name: ssh into box after boot
-      run: vagrant ssh -c "/vagrant/venv/bin/python /vagrant/manage.py test core'"
+      run: vagrant ssh -c "/vagrant/venv/bin/python /vagrant/manage.py test core"
