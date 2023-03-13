@@ -13,7 +13,7 @@ Vagrant.configure("2") do |config|
     python3 -m venv /vagrant/venv
     # install miscellaneous dependencies
     sudo apt install -y python3-dev libpq-dev
-    /vagrant/venv/bin/pip install -r requirements.txt
+    /vagrant/venv/bin/pip install -r /vagrant/requirements.txt
     # configure postgresql
     sudo -u postgres psql -f /vagrant/setup.sql
     /vagrant/venv/bin/python3 /vagrant/manage.py migrate
