@@ -16,6 +16,9 @@ jobs:
         key: ${{ runner.os }}-vagrant-${{ hashFiles('Vagrantfile') }}
         restore-keys: |
           ${{ runner.os }}-vagrant-
+          
+    - name: upgrade vagrant version
+      run: brew install hashicorp/tap/hashicorp-vagrant
 
     - name: Run vagrant up
       run: vagrant up
