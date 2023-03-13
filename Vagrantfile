@@ -16,6 +16,6 @@ Vagrant.configure("2") do |config|
     /vagrant/venv/bin/pip install -r /vagrant/requirements.txt
     # configure postgresql
     sudo -u postgres psql -f /vagrant/setup.sql
-    /vagrant/venv/bin/python3 /vagrant/manage.py migrate
+    /vagrant/venv/bin/python /vagrant/manage.py migrate
   SHELL
 end
