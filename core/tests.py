@@ -5,6 +5,7 @@ from django.test import TestCase, Client
 from django.utils import timezone
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
+from django.middleware.csrf import get_token
 
 from .views import update
 from .models import Post, Like
@@ -75,13 +76,13 @@ class PostTests(TestCase):
         assert Post.objects.filter(title='I exist').exists()
     def test_like_view(self):
         # make a post
-        p1 = Post.objects.create(title='title', body='body', published_date=timezone.now(), created_by = self.user)
-        p1.save()
+        p1 = Post.objects.create(title='title', body='body', published_date=timezone.now(), created_by=self.user)
 
-        # make a like
-        l = Like.objects.create(posts=p1,users=self.user)
-        l.save()
+        # send POST request with CSRF token
+        response = self.client.get(f'/'+str(p1.id)+'/like')
 
-        # check for the like
-        l.refresh_from_db()
-        assert l.posts.title == p1.title
+        # check that the response status code is 302, indicating a redirect
+        self.assertEqual(response.status_code, 302)
+
+        # check that a Like object was created
+        self.assertTrue(Like.objects.filter(posts=p1).exists())
