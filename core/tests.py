@@ -7,7 +7,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 
 from .views import update
-from .models import Post, Like
+from .models import Post, Like, Comment
 
 
 class PostTests(TestCase):
@@ -54,8 +54,6 @@ class PostTests(TestCase):
         self.assertFalse(Post.objects.filter(id=p1.id).exists())
     def test_create_view(self):
         # this tests the create view
-        posts = [Post.objects.create(title='title', body='blank', published_date=timezone.now(), created_by=self.user) for _ in range(2)]
-        p1 = posts[0]
 
         data = {
             'title': 'I exist',
@@ -80,3 +78,19 @@ class PostTests(TestCase):
     def test_comment_view(self):
         # make a post
         p1 = Post.objects.create(title='title', body='body', published_date=timezone.now(), created_by=self.user)
+
+        # prepare data to be sent
+        data = {
+            'post': str(p1.id),
+            'comment': 'this is a test comment',
+            'user': str(self.user.id),
+        }
+
+        # make the request
+        response = self.client.post('/', data=data)
+
+        # check the response worked
+        self.assertEqual(response.status_code, 200)
+        
+        # check for the comment
+        self.assertTrue(Comment.objects.filter(posts=p1).exists())
