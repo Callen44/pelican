@@ -86,3 +86,5 @@ class PostTests(TestCase):
 
         # check that a Like object was created
         self.assertTrue(Like.objects.filter(posts=p1).exists())
+    def test_comment_view(self):
+        pass
