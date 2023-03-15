@@ -5,7 +5,6 @@ from django.test import TestCase, Client
 from django.utils import timezone
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
-from django.middleware.csrf import get_token
 
 from .views import update
 from .models import Post, Like
@@ -23,13 +22,9 @@ class PostTests(TestCase):
         posts = [Post.objects.create(title='title', body='blank', published_date=timezone.now(), created_by=self.user) for _ in range(2)]
         p1 = posts[0]
 
-        response = self.client.get(f'/{p1.id}/update/')
-        csrf_token = response.cookies['csrftoken'].value
-
         data = {
             'title': 'I am a mongoose',
             'body': 'it is true',
-            'csrfmiddlewaretoken': csrf_token,
         }
         response = self.client.post(f'/{p1.id}/update/', data=data)
 
@@ -62,13 +57,9 @@ class PostTests(TestCase):
         posts = [Post.objects.create(title='title', body='blank', published_date=timezone.now(), created_by=self.user) for _ in range(2)]
         p1 = posts[0]
 
-        response = self.client.get(f'/{p1.id}/update/')
-        csrf_token = response.cookies['csrftoken'].value
-
         data = {
             'title': 'I exist',
             'body': "If I don't then something is wrong",
-            'csrfmiddlewaretoken': csrf_token,
         }
         response = self.client.post('/create/', data=data)
         
@@ -78,8 +69,8 @@ class PostTests(TestCase):
         # make a post
         p1 = Post.objects.create(title='title', body='body', published_date=timezone.now(), created_by=self.user)
 
-        # send POST request with CSRF token
-        response = self.client.get(f'/'+str(p1.id)+'/like')
+        # send POST request 
+        response = self.client.get(f'/{str(p1.id)}/like')
 
         # check that the response status code is 302, indicating a redirect
         self.assertEqual(response.status_code, 302)
@@ -87,4 +78,5 @@ class PostTests(TestCase):
         # check that a Like object was created
         self.assertTrue(Like.objects.filter(posts=p1).exists())
     def test_comment_view(self):
-        pass
+        # make a post
+        p1 = Post.objects.create(title='title', body='body', published_date=timezone.now(), created_by=self.user)
