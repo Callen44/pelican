@@ -8,7 +8,8 @@ from django.contrib.auth import get_user_model
 
 from .models import Post, Like, Comment
 
-# Create your views here.
+# index requires account
+@login_required
 def index(request):
     # check if there is any incomming data (comments) and make sure the user is authenticated
     POST = request.POST
