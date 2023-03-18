@@ -6,7 +6,8 @@ from django.contrib.auth.decorators import login_required
 
 from .models import Post, Like
 
-# Create your views here.
+# index requires account
+@login_required
 def index(request):
     posts = Post.objects.order_by("-published_date").annotate(num_likes=Count("likes"))
     return render(request, 'home.html', {'posts': posts})
