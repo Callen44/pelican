@@ -1,13 +1,33 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.utils import timezone
 from django.db.models import Count
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 
-from .models import Post, Like
+from .models import Post, Like, Comment
 
 # Create your views here.
 def index(request):
+    # check if there is any incomming data (comments) and make sure the user is authenticated
+    POST = request.POST
+    if POST != {} and request.user.is_authenticated:
+        # a comment has been recived, time to move forward with creating it
+
+        # figure out if the post even exists
+        get_object_or_404(Post, id = POST['post_id'])
+
+        # grab the user object
+        user_active = User.objects.get(id = POST['user'])
+
+        # grab the post object
+        post_active = Post.objects.get(id = POST['post_id'])
+
+        # make and save the comment
+        n_comment = Comment(user = user_active, comment = POST['comment'], post = post_active)
+        n_comment.save()
+
     posts = Post.objects.order_by("-published_date").annotate(num_likes=Count("likes"))
     return render(request, 'home.html', {'posts': posts})
 @login_required

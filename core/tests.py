@@ -81,7 +81,7 @@ class PostTests(TestCase):
 
         # prepare data to be sent
         data = {
-            'post': str(p1.id),
+            'post_id': str(p1.id),
             'comment': 'this is a test comment',
             'user': str(self.user.id),
         }
@@ -93,4 +93,4 @@ class PostTests(TestCase):
         self.assertEqual(response.status_code, 200)
         
         # check for the comment
-        self.assertTrue(Comment.objects.filter(posts=p1).exists())
+        self.assertTrue(Comment.objects.filter(post=p1).exists())
