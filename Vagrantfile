@@ -6,7 +6,7 @@ Vagrant.configure("2") do |config|
     # install postgresql
     apt-get -y install postgresql postgresql-contrib
     # configure pip
-    apt-get -y install python-pip
+    apt-get -y install python3-pip
     pip install -U pip
     # setup venv
     apt-get -y install python3-venv
