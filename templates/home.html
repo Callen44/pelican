@@ -23,6 +23,22 @@
         {% endif %}
       </header>
       <p class="body">{{ post.body }}</p>
+      <div>
+        <p>comments:</p>
+        <hr>
+        {% for comment in post.comments.all %}
+        <div class="container">
+          <div>{{ comment.comment }}  </div> {% if comment.user == user %} <a class="danger" href="{% url 'core:delete_comment' pk=comment.id pid=post.id %}" onclick="return confirm('Are you sure?');"> - delete</a> {% endif %}
+        </div>
+          <div class="about">by {{ comment.user }} on {{ comment.published_date }}</div>
+        {% endfor %}
+      </div>
+    <form method="post">
+      {% csrf_token %}
+      <label for="comment">Comment here</label>
+      <input name="comment" id="comment" name="comment" required>
+      <input type="hidden" name="post_id" value="{{ post.id }}">
+    </form>
     </article>
     {% if not loop.last %}
       <hr>

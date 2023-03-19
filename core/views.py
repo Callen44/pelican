@@ -1,16 +1,47 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseRedirect
 from django.utils import timezone
 from django.db.models import Count
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
+from django.db.models import Count, Prefetch
 
-from .models import Post, Like
+from .models import Post, Like, Comment
 
 # index requires account
 @login_required
 def index(request):
-    posts = Post.objects.order_by("-published_date").annotate(num_likes=Count("likes"))
+    # check if there is any incomming data (comments) and make sure the user is authenticated
+    POST = request.POST
+    if request.method == 'POST' and request.user.is_authenticated:
+        # a comment has been recived, time to move forward with creating it
+
+        # figure out if the post even exists
+        active_post = get_object_or_404(Post, id=POST['post_id'])
+
+        # make and save the comment
+        n_comment = Comment(
+            user=request.user, comment=POST['comment'], post=active_post, published_date=timezone.now()
+        )
+        n_comment.save()
+        # return redirect('name-of-some-view')
+
+    posts = (
+        Post.objects.order_by('-published_date')
+        .prefetch_related(
+            Prefetch('comments', Comment.objects.order_by('-published_date'))
+        )
+        .annotate(num_likes=Count('likes'))
+    )
     return render(request, 'home.html', {'posts': posts})
+@login_required
+def delete_comment(request, pk, pid):
+    post = Post.objects.get(id = pid)
+    comment = Comment.objects.get(post = post, id = pk)
+    if request.user == comment.user:
+        comment.delete()
+    return redirect('core:index')
 @login_required
 def like(request, pk):
     #users cannot like posts that they have allready liked in the past

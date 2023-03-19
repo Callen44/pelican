@@ -11,3 +11,8 @@ class Post(models.Model):
 class Like(models.Model):
     posts = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='likes')
     users = models.ForeignKey(User, on_delete=models.CASCADE, related_name='likes')
+class Comment(models.Model):
+    comment = models.CharField(max_length=500)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
+    published_date = models.DateTimeField('date_published')

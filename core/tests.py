@@ -7,7 +7,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 
 from .views import update
-from .models import Post, Like
+from .models import Post, Like, Comment
 
 
 class PostTests(TestCase):
@@ -22,13 +22,9 @@ class PostTests(TestCase):
         posts = [Post.objects.create(title='title', body='blank', published_date=timezone.now(), created_by=self.user) for _ in range(2)]
         p1 = posts[0]
 
-        response = self.client.get(f'/{p1.id}/update/')
-        csrf_token = response.cookies['csrftoken'].value
-
         data = {
             'title': 'I am a mongoose',
             'body': 'it is true',
-            'csrfmiddlewaretoken': csrf_token,
         }
         response = self.client.post(f'/{p1.id}/update/', data=data)
 
@@ -58,16 +54,10 @@ class PostTests(TestCase):
         self.assertFalse(Post.objects.filter(id=p1.id).exists())
     def test_create_view(self):
         # this tests the create view
-        posts = [Post.objects.create(title='title', body='blank', published_date=timezone.now(), created_by=self.user) for _ in range(2)]
-        p1 = posts[0]
-
-        response = self.client.get(f'/{p1.id}/update/')
-        csrf_token = response.cookies['csrftoken'].value
 
         data = {
             'title': 'I exist',
             'body': "If I don't then something is wrong",
-            'csrfmiddlewaretoken': csrf_token,
         }
         response = self.client.post('/create/', data=data)
         
@@ -75,13 +65,46 @@ class PostTests(TestCase):
         assert Post.objects.filter(title='I exist').exists()
     def test_like_view(self):
         # make a post
-        p1 = Post.objects.create(title='title', body='body', published_date=timezone.now(), created_by = self.user)
-        p1.save()
+        p1 = Post.objects.create(title='title', body='body', published_date=timezone.now(), created_by=self.user)
 
-        # make a like
-        l = Like.objects.create(posts=p1,users=self.user)
-        l.save()
+        # send POST request 
+        response = self.client.get(f'/{str(p1.id)}/like')
 
-        # check for the like
-        l.refresh_from_db()
-        assert l.posts.title == p1.title
+        # check that the response status code is 302, indicating a redirect
+        self.assertEqual(response.status_code, 302)
+
+        # check that a Like object was created
+        self.assertTrue(Like.objects.filter(posts=p1).exists())
+    def test_comment_view(self):
+        # make a post
+        p1 = Post.objects.create(title='title', body='body', published_date=timezone.now(), created_by=self.user)
+
+        # prepare data to be sent
+        data = {
+            'post_id': str(p1.id),
+            'comment': 'this is a test comment',
+        }
+
+        # make the request
+        response = self.client.post('/', data=data)
+
+        # check the response worked
+        self.assertEqual(response.status_code, 200)
+        
+        # check for the comment
+        self.assertTrue(Comment.objects.filter(post=p1).exists())
+    def test_comment_delete(self):
+        # make a post
+        p1 = Post.objects.create(title='title', body='body', published_date=timezone.now(), created_by=self.user)
+
+        # make a comment
+        c1 = Comment.objects.create(comment="hello", post=p1, user=self.user, published_date = timezone.now())
+
+        # delete comment
+        response = self.client.get(f'/{c1.id}/{p1.id}/delete_comment')
+
+        # check the response worked
+        self.assertEqual(response.status_code, 302)
+
+        # check for the comment
+        self.assertFalse(Comment.objects.filter(post=p1).exists())
