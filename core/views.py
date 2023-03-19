@@ -37,7 +37,6 @@ def index(request):
     return render(request, 'home.html', {'posts': posts})
 @login_required
 def delete_comment(request, pk, pid):
-    print(pid)
     post = Post.objects.get(id = pid)
     comment = Comment.objects.get(post = post, id = pk)
     if request.user == comment.user:

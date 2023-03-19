@@ -93,3 +93,18 @@ class PostTests(TestCase):
         
         # check for the comment
         self.assertTrue(Comment.objects.filter(post=p1).exists())
+    def test_comment_delete(self):
+        # make a post
+        p1 = Post.objects.create(title='title', body='body', published_date=timezone.now(), created_by=self.user)
+
+        # make a comment
+        c1 = Comment.objects.create(comment="hello", post=p1, user=self.user, published_date = timezone.now())
+
+        # delete comment
+        response = self.client.get(f'/{c1.id}/{p1.id}/delete_comment')
+
+        # check the response worked
+        self.assertEqual(response.status_code, 302)
+
+        # check for the comment
+        self.assertFalse(Comment.objects.filter(post=p1).exists())
