@@ -83,7 +83,6 @@ class PostTests(TestCase):
         data = {
             'post_id': str(p1.id),
             'comment': 'this is a test comment',
-            'user': str(self.user.id),
         }
 
         # make the request
