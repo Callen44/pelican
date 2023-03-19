@@ -1,10 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponseRedirect
 from django.utils import timezone
 from django.db.models import Count
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
-from django.contrib.auth import get_user_model
 from django.db.models import Count, Prefetch
 
 from .models import Post, Like, Comment
@@ -30,7 +27,7 @@ def index(request):
     posts = (
         Post.objects.order_by('-published_date')
         .prefetch_related(
-            Prefetch('comments', Comment.objects.order_by('-published_date'))
+            Prefetch('comments', Comment.objects.order_by('published_date'))
         )
         .annotate(num_likes=Count('likes'))
     )
@@ -51,9 +48,9 @@ def like(request, pk):
     all_likes = Like.objects.all()
     for like in all_likes:
         if l.users == like.users and l.posts == like.posts:
-            return HttpResponseRedirect('..')
+            return redirect('home:index')
     l.save()
-    return HttpResponseRedirect('..')
+    return redirect('core:index')
 @login_required
 def update(request, pk):
     post = request.POST
@@ -65,12 +62,12 @@ def update(request, pk):
             post_got.body = post['body']
             post_got.save()
 
-            return HttpResponseRedirect('../..')
+            return redirect('core:index')
         else:
             post_dat = {'title': post_got.title, 'author_id': str(post_got.created_by), 'created': post_got.published_date, 'body': post_got.body, 'id': post_got.id}
             return render(request, 'update.html', {'post': post_dat})
     else:
-        return HttpResponseRedirect('../..')
+        return redirect('core:index')
 @login_required
 def create(request):
     post = request.POST
@@ -79,7 +76,7 @@ def create(request):
         p.save()
         p = None
 
-        return HttpResponseRedirect('../')
+        return redirect('core:index')
     else:
         return render(request, 'create.html')
 @login_required
@@ -87,4 +84,4 @@ def delete(request, pk):
     post = Post.objects.get(id=pk)
     if request.user == post.created_by:
         post.delete()
-    return HttpResponseRedirect('../..')
+    return redirect('core:index')
