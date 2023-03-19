@@ -22,10 +22,10 @@ def index(request):
 
         # make and save the comment
         n_comment = Comment(
-            user=request.user, comment=POST['comment'], post=active_post
+            user=request.user, comment=POST['comment'], post=active_post, published_date=timezone.now()
         )
         n_comment.save()
-        return redirect('name-of-some-view')
+        # return redirect('name-of-some-view')
 
     posts = (
         Post.objects.order_by('-published_date')
