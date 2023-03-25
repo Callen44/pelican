@@ -1,3 +1,4 @@
+# vagrantfile is primaraly for testing production enviroment type things, though you can use it however you like
 Vagrant.configure("2") do |config|
   config.vm.box = "ubuntu/jammy64"
   config.vm.network "forwarded_port", guest: 8000, host: 8000
@@ -15,7 +16,7 @@ Vagrant.configure("2") do |config|
     sudo apt install -y python3-dev libpq-dev
     /vagrant/venv/bin/pip install -r /vagrant/requirements.txt
     # configure postgresql
-    sudo -u postgres psql -f /vagrant/setup.sql
+    sudo -u postgres psql -c "CREATE DATABASE mydb; CREATE USER myuser WITH ENCRYPTED PASSWORD 'mypass'; ALTER ROLE myuser SET client_encoding TO 'utf8'; ALTER ROLE myuser SET default_transaction_isolation TO 'read committed'; ALTER ROLE myuser SET timezone TO 'UTC'; GRANT ALL PRIVILEGES ON DATABASE mydb TO myuser; ALTER USER myuser CREATEDB;"
     /vagrant/venv/bin/python3 /vagrant/manage.py migrate
   SHELL
 end
