@@ -14,3 +14,7 @@ DATABASES = {
         'PORT': '5432',
     }
 }
+
+DEBUG = False
+
+ALLOWED_HOSTS = ['0.0.0.0']

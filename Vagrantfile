@@ -2,12 +2,13 @@
 Vagrant.configure("2") do |config|
   config.vm.box = "ubuntu/jammy64"
   config.vm.network "forwarded_port", guest: 8000, host: 8000
+  config.vm.network "forwarded_port", guest: 80, host:80
   config.vm.provision "shell", inline: <<-SHELL
     apt-get update
     # install miscellaneous dependencies
     apt-get install -y python3-dev libpq-dev
     apt-get -y install postgresql postgresql-contrib
-    apt-get install nginx-light
+    apt-get install nginx
     # configure pip, venv and psycopg2
     apt-get -y install python3-pip
     pip install -U pip
