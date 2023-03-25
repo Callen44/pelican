@@ -7,6 +7,7 @@ Vagrant.configure("2") do |config|
     # install miscellaneous dependencies
     apt-get install -y python3-dev libpq-dev
     apt-get -y install postgresql postgresql-contrib
+    apt-get install nginx-light
     # configure pip, venv and psycopg2
     apt-get -y install python3-pip
     pip install -U pip
@@ -14,7 +15,10 @@ Vagrant.configure("2") do |config|
     python3 -m venv /vagrant/venv
     /vagrant/venv/bin/pip install -r /vagrant/requirements.txt
     # configure postgresql
-    sudo -u postgres psql -c "CREATE DATABASE mydb; CREATE USER myuser WITH ENCRYPTED PASSWORD 'mypass'; ALTER ROLE myuser SET client_encoding TO 'utf8'; ALTER ROLE myuser SET default_transaction_isolation TO 'read committed'; ALTER ROLE myuser SET timezone TO 'UTC'; GRANT ALL PRIVILEGES ON DATABASE mydb TO myuser; ALTER USER myuser CREATEDB;"
-    /vagrant/venv/bin/python3 /vagrant/manage.py migrate
+    sudo -u postgres psql -c "CREATE DATABASE mydb;"
+    sudo -u postgres psql -c "CREATE USER myuser WITH ENCRYPTED PASSWORD 'mypass'; ALTER ROLE myuser SET client_encoding TO 'utf8'; ALTER ROLE myuser SET default_transaction_isolation TO 'read committed'; ALTER ROLE myuser SET timezone TO 'UTC'; GRANT ALL PRIVILEGES ON DATABASE mydb TO myuser; ALTER USER myuser CREATEDB;"
+    /vagrant/venv/bin/python3 /vagrant/manage.py migrate --settings=pelican.settings.production
+    # configure sqlite
+    /vagrant/venv/bin/python3 /vagrant/manage.py migrate --settings=pelican.settings.dev
   SHELL
 end
