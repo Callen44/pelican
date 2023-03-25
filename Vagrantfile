@@ -7,8 +7,8 @@ Vagrant.configure("2") do |config|
     apt-get update
     # install miscellaneous dependencies
     apt-get install -y python3-dev libpq-dev
-    apt-get -y install postgresql postgresql-contrib
-    apt-get install nginx
+    apt-get install -y postgresql postgresql-contrib
+    apt-get install -y nginx
     # configure pip, venv and psycopg2
     apt-get -y install python3-pip
     pip install -U pip
