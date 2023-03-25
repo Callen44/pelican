@@ -4,16 +4,14 @@ Vagrant.configure("2") do |config|
   config.vm.network "forwarded_port", guest: 8000, host: 8000
   config.vm.provision "shell", inline: <<-SHELL
     apt-get update
-    # install postgresql
+    # install miscellaneous dependencies
+    apt-get install -y python3-dev libpq-dev
     apt-get -y install postgresql postgresql-contrib
-    # configure pip
+    # configure pip, venv and psycopg2
     apt-get -y install python3-pip
     pip install -U pip
-    # setup venv
     apt-get -y install python3-venv
     python3 -m venv /vagrant/venv
-    # install miscellaneous dependencies
-    sudo apt install -y python3-dev libpq-dev
     /vagrant/venv/bin/pip install -r /vagrant/requirements.txt
     # configure postgresql
     sudo -u postgres psql -c "CREATE DATABASE mydb; CREATE USER myuser WITH ENCRYPTED PASSWORD 'mypass'; ALTER ROLE myuser SET client_encoding TO 'utf8'; ALTER ROLE myuser SET default_transaction_isolation TO 'read committed'; ALTER ROLE myuser SET timezone TO 'UTC'; GRANT ALL PRIVILEGES ON DATABASE mydb TO myuser; ALTER USER myuser CREATEDB;"
