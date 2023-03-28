@@ -5,9 +5,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", inline: <<-SHELL
     apt-get update
     # install dependencies
-    apt-get install -y python3-dev libpq-dev
-    apt-get install -y postgresql postgresql-contrib
-    apt-get install -y apache2
+    apt-get install -y python3-dev libpq-dev postgresql postgresql-contrib apache2
     # configure pip, venv and psycopg2
     apt-get -y install python3-pip
     pip install -U pip
@@ -20,5 +18,10 @@ Vagrant.configure("2") do |config|
     /vagrant/venv/bin/python3 /vagrant/manage.py migrate --settings=pelican.settings.production
     # configure sqlite
     /vagrant/venv/bin/python3 /vagrant/manage.py migrate --settings=pelican.settings.dev
+    # configure apache
+    cp /vagrant/nocode/config-files/000-defualt.conf /etc/apache2/sites-available/000-default.conf
+    sudo mkdir /var/www/pelican
+    a2enmod proxy proxy_http headers
+    sudo systemctl restart apache2
   SHELL
 end
