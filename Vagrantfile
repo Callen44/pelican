@@ -1,14 +1,13 @@
 # vagrantfile is primaraly for testing production enviroment type things, though you can use it however you like
 Vagrant.configure("2") do |config|
   config.vm.box = "ubuntu/jammy64"
-  config.vm.network "forwarded_port", guest: 8000, host: 8000
-  config.vm.network "forwarded_port", guest: 80, host:80
+  config.vm.network "forwarded_port", guest: 80, host:8000
   config.vm.provision "shell", inline: <<-SHELL
     apt-get update
-    # install miscellaneous dependencies
+    # install dependencies
     apt-get install -y python3-dev libpq-dev
     apt-get install -y postgresql postgresql-contrib
-    apt-get install -y nginx
+    apt-get install -y apache2
     # configure pip, venv and psycopg2
     apt-get -y install python3-pip
     pip install -U pip

@@ -1,7 +1,0 @@
-# nginx configuration file
-server {
-    listen 80;
-    listen [::]:80;
-    server_name pelican.social www.pelican.social;
-    root /var/www/pelican.social;
-}
