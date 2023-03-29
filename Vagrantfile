@@ -26,6 +26,6 @@ Vagrant.configure("2") do |config|
     # collect static files
     mkdir /var/cache/pelican
     mkdir /var/cache/pelican/static
-    /vagrant/venv/bin/python3 /vagrant/manage.py collectstatic --settings=pelican.settings.productio
+    /vagrant/venv/bin/python3 /vagrant/manage.py collectstatic --settings=pelican.settings.production
   SHELL
 end
