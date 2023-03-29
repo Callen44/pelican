@@ -23,5 +23,9 @@ Vagrant.configure("2") do |config|
     sudo mkdir /var/www/pelican
     a2enmod proxy proxy_http headers
     sudo systemctl restart apache2
+    # collect static files
+    mkdir /var/cahce/pelican
+    mkdir /var/cache/pelican/static
+    /vagrant/venv/bin/python3 /vagrant/manage.py collectstatic --settings=pelican.settings.productio
   SHELL
 end

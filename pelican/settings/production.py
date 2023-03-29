@@ -17,4 +17,4 @@ DATABASES = {
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['0.0.0.0']
+STATIC_ROOT = '/var/cache/pelican/static/'
