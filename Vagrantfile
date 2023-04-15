@@ -34,5 +34,7 @@ Vagrant.configure("2") do |config|
     /vagrant/venv/bin/python3 /vagrant/manage.py collectstatic --settings=pelican.settings.production
     # restart everything
     sudo systemctl restart apache2
+    # done!
+    echo done! you can run vagran ssh now
   SHELL
 end
