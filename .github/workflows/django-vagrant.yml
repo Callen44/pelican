@@ -18,5 +18,8 @@ jobs:
     - name: Test ssh
       run: vagrant ssh -c "echo 'hello'"
 
-    - name: run tests
+    - name: run sqlite test
       run: vagrant ssh -c "/vagrant/venv/bin/python /vagrant/manage.py test"
+    
+    - name: run production-like test
+      run: vagrant ssh -c "/vagrant/venv/bin/python /vagrant/manage.py test core --settings=pelican.settings.production"
