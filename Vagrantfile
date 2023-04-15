@@ -26,6 +26,8 @@ Vagrant.configure("2") do |config|
     sudo mkdir /var/www/pelican
     a2enmod proxy proxy_http headers
     sudo systemctl restart apache2
+    # set up gunicorn as a service
+    sudo cp /vagrant/nocode/config-files/pelican.service /etc/systemd/system
     # collect static files
     mkdir /var/cache/pelican
     mkdir /var/cache/pelican/static
