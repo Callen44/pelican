@@ -6,6 +6,9 @@ Vagrant.configure("2") do |config|
     apt-get update
     # install dependencies
     apt-get install -y python3-dev libpq-dev postgresql postgresql-contrib apache2
+    # make required folders
+    sudo mkdir /var/log/gunicorn
+    sudo touch /var/log/gunicorn/test_app_error.log
     # configure pip, venv and psycopg2
     apt-get -y install python3-pip
     pip install -U pip
@@ -27,5 +30,7 @@ Vagrant.configure("2") do |config|
     mkdir /var/cache/pelican
     mkdir /var/cache/pelican/static
     /vagrant/venv/bin/python3 /vagrant/manage.py collectstatic --settings=pelican.settings.production
+    # restart everything
+    sudo systemctl restart apache2
   SHELL
 end

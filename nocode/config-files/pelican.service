@@ -1,0 +1,10 @@
+[Unit]
+Description=Pelican
+After=network.target
+
+[Service]
+Enviroment="DJANGO_SETTINGS_MODULE=pelican.settings.production"
+WorkingDirectory=/vagrant
+ExecStart=/vagrant/venv/bin/gunicorn pelican.wsgi
+ExecReload=/bin/kill -s HUP $MAINPID
+RestartSec=5
