@@ -26,3 +26,6 @@ jobs:
 
     - name: test for response
       run: vagrant ssh -c "wget localhost:80"
+
+    - name: check if response is valid
+      run: vagrant ssh -c "python3 /opt/pelican/etc/validate-responses.py"
