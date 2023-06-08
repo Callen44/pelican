@@ -23,3 +23,6 @@ jobs:
     
     - name: run production-like test
       run: vagrant ssh -c "/opt/pelican/venv/bin/python /opt/pelican/manage.py test core --settings=pelican.settings.production"
+
+    - name: test for response
+      run: vagrant ssh -c "wget localhost:80"
