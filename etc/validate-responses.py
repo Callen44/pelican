@@ -1,3 +1,5 @@
+# This program makes an HTTP request to the server to check if it is running properly, then it returns a custom error
+# based off of what when wrong. 
 import http.client
 
 def check_http_status():
