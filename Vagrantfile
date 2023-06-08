@@ -35,8 +35,10 @@ Vagrant.configure("2") do |config|
     mkdir /var/cache/pelican
     mkdir /var/cache/pelican/static
     /opt/pelican/venv/bin/python3 /opt/pelican/manage.py collectstatic --settings=pelican.settings.production
-    # restart everything
+    # restartd, start, and enable everything
     sudo systemctl restart apache2
+    sudo systemctl enable pelican
+    sudo systemctl start pelican
     # done!
     echo done! you can run vagran ssh now
   SHELL
