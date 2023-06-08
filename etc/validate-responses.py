@@ -6,7 +6,6 @@ def check_http_status():
     conn.request("GET", "/accounts/login/")
     response = conn.getresponse()
     
-    assert response != None
     assert response.status == 200
 
 
