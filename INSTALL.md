@@ -1,7 +1,7 @@
 # Install at your own risk!
-This software is made by me for the purpose of learning better django, and is not intended to actually be used anywhere, while it is intended to be secure and usable it is not guaranteed to be even a good thing to consider!
+This software is made by me for the purpose of learning better Django, and is not intended to actually be used anywhere, while it is intended to be secure and usable it is not guaranteed to be even a good thing to consider!
 # Step 1: Update server
-Switch to the root account before following the instructions listed here.
+Switch to the root account before following the instructions listed here, you may also want to activate the virtual environment after it is created.
 
 Run the commands 
 ```
