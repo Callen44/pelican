@@ -6,7 +6,7 @@ import sys
 
 def main(arg):
     """Run administrative tasks."""
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'pelican.settings')
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'pelican.settings.production')
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
@@ -15,8 +15,6 @@ def main(arg):
             "available on your PYTHONPATH environment variable? Did you "
             "forget to activate a virtual environment?"
         ) from exc
-    if arg == ['manage.py', 'runserver']:
-        arg.append('0.0.0.0:8000')
     execute_from_command_line(arg)
 
 

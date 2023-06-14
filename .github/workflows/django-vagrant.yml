@@ -18,5 +18,14 @@ jobs:
     - name: Test ssh
       run: vagrant ssh -c "echo 'hello'"
 
-    - name: run tests
-      run: vagrant ssh -c "/vagrant/venv/bin/python /vagrant/manage.py test"
+    - name: run sqlite test
+      run: vagrant ssh -c "/opt/pelican/venv/bin/python /opt/pelican/manage.py test"
+    
+    - name: run production-like test
+      run: vagrant ssh -c "/opt/pelican/venv/bin/python /opt/pelican/manage.py test core --settings=pelican.settings.production"
+
+    - name: test for response
+      run: vagrant ssh -c "wget localhost:80"
+
+    - name: check if response is valid
+      run: vagrant ssh -c "python3 /opt/pelican/etc/validate-responses.py"

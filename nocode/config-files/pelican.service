@@ -1,0 +1,12 @@
+[Unit]
+Description=Pelican
+After=network.target 
+
+[Service]
+WorkingDirectory=/opt/pelican
+ExecStart=/opt/pelican/venv/bin/gunicorn pelican.wsgi
+ExecReload=/bin/kill -s HUP $MAINPID
+RestartSec=5
+
+[Install]
+WantedBy=default.target
